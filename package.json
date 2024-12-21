@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "run": "tsc && node --max-old-space-size=8192 build/index.js"
+    "run": "tsc && node --max-old-space-size=8192 build/index.js",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",

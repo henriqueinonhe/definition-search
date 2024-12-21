@@ -1,6 +1,6 @@
 import { it, expect } from "vitest";
-import { Clause } from "./Clause";
-import { generateClausesFromFeatures } from "./generateClausesFromFeatures";
+import { Clause } from "../Clause";
+import { createClauseGenerator } from "./clauseGenerator";
 
 it("Generates clauses correctly", () => {
   const expected: Array<Clause> = [
@@ -32,7 +32,16 @@ it("Generates clauses correctly", () => {
     ["!A", "!B", "!C"],
   ];
 
-  const actual = generateClausesFromFeatures(["A", "B", "C"]);
+  const clauseGenerator = createClauseGenerator(["A", "B", "C"]);
+
+  const actual = [...clauseGenerator];
 
   expect(actual).toStrictEqual(expected);
+});
+
+it("It yields correctly", () => {
+  const clauseGenerator = createClauseGenerator(["A", "B", "C"]);
+
+  expect(clauseGenerator.next().value).toStrictEqual(["A"]);
+  expect(clauseGenerator.next().value).toStrictEqual(["!A"]);
 });

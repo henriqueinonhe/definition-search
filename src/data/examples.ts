@@ -1,4 +1,4 @@
-import { Example } from "../domain/models/Example";
+import { Example } from "../domain/example/Example";
 
 export const examples: Array<Example> = [
   {

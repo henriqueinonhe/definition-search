@@ -1,13 +1,13 @@
 import { examples } from "./data/examples";
-import { findDefinition } from "./domain/algorithms/findDefinition";
+import { altFindDefinition } from "./domain/algorithms/altFindDefinition";
 
 const main = async (): Promise<void> => {
-  console.log(
-    findDefinition({
-      examples: examples,
-      positiveFeatures: ["Cat", "Orange", "Male"],
-    }),
-  );
+  const definition = altFindDefinition({
+    examples: examples,
+    positiveFeatures: ["Cat", "Orange", "Male"],
+  });
+
+  console.log(definition);
 };
 
 main();

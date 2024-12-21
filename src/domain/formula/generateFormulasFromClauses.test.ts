@@ -1,13 +1,15 @@
 import { expect, it } from "vitest";
 import { Feature } from "../feature/Feature";
-import { generateClausesFromFeatures } from "../clause/generateClausesFromFeatures";
 import { generateFormulasFromClauses } from "./generateFormulasFromClauses";
 import { Formula } from "./Formula";
+import { createClauseGenerator } from "../clause/clauseGenerator/clauseGenerator";
 
 it("Generates formulas correctly from clauses", () => {
   const positiveFeatures: Array<Feature> = ["A", "B"];
 
-  const clauses = generateClausesFromFeatures(positiveFeatures);
+  const clauseGenerator = createClauseGenerator(positiveFeatures);
+
+  const clauses = [...clauseGenerator];
 
   const actualFormulas = generateFormulasFromClauses(clauses);
 

@@ -16,9 +16,5 @@ export const featureSetSatisfiesClause = ({
   // NOTE: We may want to normalize features to
   // remove double negations before making this comparison
 
-  if (clause.length !== featureSet.size) {
-    return false;
-  }
-
   return clause.every((feature) => featureSet.has(feature));
 };
