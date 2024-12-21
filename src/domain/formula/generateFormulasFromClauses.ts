@@ -32,18 +32,20 @@ export const generateFormulasFromClauses = (
   return formulas;
 };
 
-const generateFormulaFromPresenceIndicatorList = (
+export const generateFormulaFromPresenceIndicatorList = (
   clauses: Array<Clause>,
   presenceIndicatorList: Array<boolean>,
 ): Formula => {
   return clauses.filter((_, index) => presenceIndicatorList[index]);
 };
 
-const isLastPresenceIndicatorList = (presenceIndicatorList: Array<boolean>) => {
+export const isLastPresenceIndicatorList = (
+  presenceIndicatorList: Array<boolean>,
+) => {
   return presenceIndicatorList.every((indicator) => indicator === true);
 };
 
-const generateNextPresenceIndicatorList = (
+export const generateNextPresenceIndicatorList = (
   presenceIndicatorList: Array<boolean>,
 ): Array<boolean> => {
   const toBeNextPresenceIndicatorList = presenceIndicatorList.slice();

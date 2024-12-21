@@ -1,7 +1,12 @@
 import { generateClausesFromFeatures } from "../clause/generateClausesFromFeatures";
 import { Feature } from "../feature/Feature";
 import { Formula } from "../formula/Formula";
-import { generateFormulasFromClauses } from "../formula/generateFormulasFromClauses";
+import {
+  generateFormulaFromPresenceIndicatorList,
+  generateFormulasFromClauses,
+  generateNextPresenceIndicatorList,
+  isLastPresenceIndicatorList,
+} from "../formula/generateFormulasFromClauses";
 import { Example } from "../models/Example";
 import { featureSetSatisfiesFormula } from "../satisfiability/featureSetSatisfiesFormula";
 
@@ -19,13 +24,36 @@ export const findDefinition = ({
   // - Generate all possible formulas from clauses - DONE
   // - Try each formula one by one to find the ones that work for all examples
 
+  // Naive algorithm doesn't work because it requires way too much
+  // memory with even 3 features, so we'll use an optimized algorithm
+  // where we'll only have one formula at a time, like, we generate the
+  // formula and check it right away
+
   const clauses = generateClausesFromFeatures(positiveFeatures);
 
-  const formulas = generateFormulasFromClauses(clauses);
+  const definitions: Array<Formula> = [];
 
-  const definitions = formulas.filter((formula) =>
-    isSuitableDefinition(examples, formula),
+  const initialClausePresenceIndicatorList: Array<boolean> = clauses.map(
+    () => false,
   );
+  let clausePresenceIndicatorList = initialClausePresenceIndicatorList;
+
+  const formulas: Array<Formula> = [];
+
+  while (!isLastPresenceIndicatorList(clausePresenceIndicatorList)) {
+    clausePresenceIndicatorList = generateNextPresenceIndicatorList(
+      clausePresenceIndicatorList,
+    );
+
+    const formula = generateFormulaFromPresenceIndicatorList(
+      clauses,
+      clausePresenceIndicatorList,
+    );
+
+    if (isSuitableDefinition(examples, formula)) {
+      definitions.push(formula);
+    }
+  }
 
   return definitions;
 };
